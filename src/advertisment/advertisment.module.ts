@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AdvertismentService } from './advertisment.service';
 import { AdvertismentController } from './advertisment.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,5 +8,6 @@ import { Advertisment, AdvertismentSchema } from './entities/advertisment.entity
   imports:[MongooseModule.forFeature([{ name:Advertisment.name, schema:AdvertismentSchema }])],
   controllers: [AdvertismentController],
   providers: [AdvertismentService],
+  exports:[MongooseModule]
 })
 export class AdvertismentModule {}

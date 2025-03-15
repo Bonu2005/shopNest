@@ -11,6 +11,6 @@ export class Color {
     nameRu:string
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Advertisment" }] }) 
-    color: Advertisment[];
+    advertisment: Advertisment[];
 }
 export let ColorSchema=SchemaFactory.createForClass(Color)

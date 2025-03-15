@@ -39,9 +39,12 @@ export class UserService {
   }
 
 
- async findAll() {
-   let find = await this.userModel.find()
-   return find
+ async findAll(query) {
+  let take =Number(query.limit)||10
+  let prev=query.offset?(Number(query.offset)-1)*take:0
+  let ord= query.order||1
+  let orderBy=query.orderBy||-1
+  return await this.userModel.find().skip(prev).limit(take).sort({[orderBy]:ord})
   }
 
 

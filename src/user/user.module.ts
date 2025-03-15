@@ -6,8 +6,16 @@ import { User, UserSchema } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports:[MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),JwtModule.register({global:true,secret:"humburger",signOptions:{expiresIn:"1h"}})],
+  imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    JwtModule.register({
+      global: true,
+      secret: 'humburger',
+      signOptions: { expiresIn: '1h' }
+    })
+  ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService], 
+  exports: [MongooseModule, UserService] 
 })
 export class UserModule {}

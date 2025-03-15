@@ -9,7 +9,7 @@ export class Comment {
     @Prop()
     star:number
 
-    @Prop({type:mongoose.Schema.Types.ObjectId,ref:"User",required:true})
+    @Prop({type:mongoose.Schema.Types.ObjectId,ref:"User"})
     user:mongoose.Schema.Types.ObjectId 
 }
 export let CommentSchema= SchemaFactory.createForClass(Comment)

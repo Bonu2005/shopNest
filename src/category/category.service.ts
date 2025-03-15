@@ -8,25 +8,37 @@ import { Model } from 'mongoose';
 @Injectable()
 export class CategoryService {
   constructor(@InjectModel(Category.name) private categoryModel:Model<Category>){}
- async create(createCategoryDto: CreateCategoryDto) {
+ async create(createCategoryDto: CreateCategoryDto,user:any) {
    let create = await this.categoryModel.create(createCategoryDto)
    return create
   }
 
-  async findAll() {
-    let find = await this.categoryModel.find()
-    return find
+  async findAll(query) {
+    const filter: any = {};
+ 
+    if (query.name) {
+      filter.name = { $regex: query.name, $options: 'i' }; 
+    }
+  
+    let find = await this.categoryModel
+      .find(filter)
+      .populate('advertisment')
+      .limit(query.limit ? parseInt(query.limit) : 10)
+      .skip(query.offset ? parseInt(query.offset) : 0)
+      .sort(query.orderBy ? { [query.orderBy]: query.order === 'ASC' ? 1 : -1 } : {});
+  
+    return find;
   }
 
  async findOne(id: string) {
-    let find = await this.categoryModel.findById(id)
+    let find = await this.categoryModel.findById(id).populate('advertisment')
     if(!find){
       return {message:"Not found data with this id"}
     }
     return find
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: string, updateCategoryDto: UpdateCategoryDto,user:any) {
     let find = await this.categoryModel.findById(id)
     if(!find){
       return {message:"Not found data with this id"}
@@ -35,7 +47,7 @@ export class CategoryService {
     return updated
   }
 
- async remove(id: string) {
+ async remove(id: string,user:any) {
     let find = await this.categoryModel.findById(id)
     if(!find){
       return {message:"Not found data with this id"}

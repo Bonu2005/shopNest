@@ -9,7 +9,6 @@ import { AuthGuard } from 'src/auth/auth.guard';
 @Module({
   imports:[MongooseModule.forFeature([{ name: Region.name, schema: RegionSchema }])],
   controllers: [RegionController],
-  providers: [RegionService,{provide: APP_GUARD,
-    useClass: AuthGuard,}],
+  providers: [RegionService],
 })
 export class RegionModule {}
