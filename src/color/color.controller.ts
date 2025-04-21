@@ -3,14 +3,17 @@ import { ColorService } from './color.service';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { TOrder, TOrderBy } from 'src/types/typeAll';
+import { TOrder, TOrderBy, UserType } from 'src/types/typeAll';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { RoleGuard } from 'src/auth/role.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @ApiTags('Colors')
 @Controller('color')
 export class ColorController {
   constructor(private readonly colorService: ColorService) {}
-
+  @UseGuards(RoleGuard)
+  @Roles(UserType.ADMIN)
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new color' })
