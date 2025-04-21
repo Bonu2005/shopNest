@@ -26,7 +26,7 @@ export class UserController {
   async findAll(@Query() query: { limit: string; offset: string; order: TOrder; orderBy: TOrderBy }) {
     return this.userService.findAll(query);
   }
-
+  
   @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -38,7 +38,7 @@ export class UserController {
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
-
+  
   @UseGuards(AuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
